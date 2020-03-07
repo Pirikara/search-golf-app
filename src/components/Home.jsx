@@ -32,13 +32,17 @@ class Home extends React.Component {
   // stateの初期値を定義
   // ここで定義されたものが最初に画面に表示される値となる
   // plansとplanCountの初期値を空の配列と0で定義しておく
-  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90', plans: [], planCount: 0 }
+  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90', plans: null, planCount: 0, error: null }
 
   // onFormSubmit関数の定義
   // async awaitという記述は、非同期通信
   // JavaScriptは処理が終わっていなくても次のコードを実行してしまうという特徴がある
   // ゴルフ場の取得の処理が終わるまではthis.setState...の処理はしないでね、という意味
   onFormSubmit = async(event) => {
+    // try/catch構文
+    // tryに書いた処理が実行されている際に起きた例外をcatchで拾うことができる
+    // 例外が起きた場合の処理をcatch内に記述 アプリケーションの停止を防ぐ
+    try {
     // デフォルトのsubmit処理をキャンセル
     event.preventDefault();
     // axiosを使用して、getのHTTP通信を行う
@@ -49,6 +53,10 @@ class Home extends React.Component {
     // responseにAPIから返却された値が含まれているので、stateにsetして更新
     this.setState({ planCount: response.data.planCount, plans: response.data.plans })
 
+    }catch (e){
+      // stateのerrorにエラーオブジェクトをセット
+      this.setState({error: e})
+    }
   }
   render(){
     // それぞれのfieldに、定義したstateの値を放り込む
@@ -102,6 +110,7 @@ class Home extends React.Component {
             // コンポーネントにplanCountを渡す
             plans={this.state.plans}
             planCount={this.state.planCount}
+            error={this.state.error}
           />
         </div>
       </div>

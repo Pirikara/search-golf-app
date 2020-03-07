@@ -3,7 +3,21 @@ import "./Common.css";
 
   // ResultコンポーネントにAPIから返ってきた値を渡す
   // planCountの値も渡す
-const Result = ({ plans, planCount }) => {
+const Result = ({ plans, planCount, error }) => {
+  // エラーがあった場合の処理
+  if (error){
+    return (
+      <div className="wrapper">
+        <div className="ui negative message">
+          <i className="close icon"></i>
+          <div className="header">
+            エラーが発生しました。
+          </div>
+          検索条件を見直すか、管理者にお問い合わせください。
+        </div>
+      </div>
+    );
+  }
   // stateであるplansが空の場合、mapが使えずにエラーとなってしまうため、条件分岐でエラーを回避する
   if (!plans){
     return <div></div>;
