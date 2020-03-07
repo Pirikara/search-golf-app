@@ -2,6 +2,17 @@ import React from 'react';
 import './Common.css';
 import 'semantic-ui-css/semantic.min.css'
 
+// カレンダー導入用のライブラリ
+// react-datepickerに定義されているコンポーネントを利用できる
+import DatePicker, { registerLocale } from 'react-datepicker'
+import ja from 'date-fns/locale/ja';
+// cssをインポート
+import "react-datepicker/dist/react-datepicker.css"
+
+
+const Today = new Date();
+registerLocale('ja', ja);
+
 
 // Homeコンポーネントを定義
 // index.jsでHomeコンポーネントが渡され、ReactDOM.render()関数で本物のDOMに変換される
@@ -13,7 +24,12 @@ class Home extends React.Component {
           <form className="ui form segment">
             <div className="field">
               <label><i className="calendar alternate outline icon"></i>プレー日</label>
-              <input type='date' />
+              <DatePicker
+                dateFormat="yyyy/MM/dd"
+                locale='ja'
+                selected={Today}
+                minDate={Today}
+               />
             </div>
             <div className="field">
               <label><i className="yen sign icon"></i>上限金額</label>
