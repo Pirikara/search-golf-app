@@ -18,8 +18,11 @@ import axios from 'axios';
 // dateパラメーターのフォーマットを整えるための関数
 import format from 'date-fns/format';
 
+// Resultコンポーネントをimport
 import Result from './Result';
 
+// Loadingコンポーネントをimport
+import Loading from "./Loading";
 
 
 const Today = new Date();
@@ -32,7 +35,7 @@ class Home extends React.Component {
   // stateの初期値を定義
   // ここで定義されたものが最初に画面に表示される値となる
   // plansとplanCountの初期値を空の配列と0で定義しておく
-  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90', plans: null, planCount: 0, error: null }
+  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90', plans: null, planCount: 0, error: false, loading: false }
 
   // onFormSubmit関数の定義
   // async awaitという記述は、非同期通信
@@ -45,13 +48,14 @@ class Home extends React.Component {
     try {
     // デフォルトのsubmit処理をキャンセル
     event.preventDefault();
+    this.setState({ loading: true })
     // axiosを使用して、getのHTTP通信を行う
     // パラメーターとして、stateを送信
     const response = await axios.get('https://api.myjson.com/bins/m0kp2', {
       params: { date: format(this.state.date, 'yyyyMMdd'), budget: this.state.budget, departure: this.state.departure, duration: this.state.duration }
     });
     // responseにAPIから返却された値が含まれているので、stateにsetして更新
-    this.setState({ planCount: response.data.planCount, plans: response.data.plans })
+    this.setState({ planCount: response.data.planCount, plans: response.data.plans, loading: false })
 
     }catch (e){
       // stateのerrorにエラーオブジェクトをセット
@@ -111,6 +115,9 @@ class Home extends React.Component {
             plans={this.state.plans}
             planCount={this.state.planCount}
             error={this.state.error}
+          />
+          <Loading
+            loading={this.state.loading}
           />
         </div>
       </div>
