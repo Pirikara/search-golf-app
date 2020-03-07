@@ -15,8 +15,10 @@ import addDays from 'date-fns/addDays';
 
 // HTTP通信を実装するため、axiosというライブラリを導入
 import axios from 'axios';
-
+// dateパラメーターのフォーマットを整えるための関数
 import format from 'date-fns/format';
+
+import Result from './Result';
 
 
 
@@ -95,6 +97,11 @@ class Home extends React.Component {
               </button>
             </div>
           </form>
+          <Result 
+            // Resultコンポーネントにplansを渡す
+            // plansにはAPIから取得した値が入っている
+            plans={this.state.plans}
+          />
         </div>
       </div>
     );
