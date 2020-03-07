@@ -2,11 +2,25 @@ import React from 'react';
 import "./Common.css";
 
   // ResultコンポーネントにAPIから返ってきた値を渡す
-const Result = ({ plans }) => {
+  // planCountの値も渡す
+const Result = ({ plans, planCount }) => {
   // stateであるplansが空の場合、mapが使えずにエラーとなってしまうため、条件分岐でエラーを回避する
   if (!plans){
     return <div></div>;
   }
+
+  if (planCount === 0){
+    return (
+    <div className="wrapper">
+      <div className="ui orange message">
+        <div className="header">
+          ゴルフ場が見つかりませんでした。条件を変更して再度検索してください。
+        </div>
+      </div>
+    </div>
+    );
+  }
+
   // 受け取った値をmapで展開
   const results = plans.map(plan => {
     return (

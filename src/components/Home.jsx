@@ -31,7 +31,8 @@ registerLocale('ja', ja);
 class Home extends React.Component {
   // stateの初期値を定義
   // ここで定義されたものが最初に画面に表示される値となる
-  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90' }
+  // plansとplanCountの初期値を空の配列と0で定義しておく
+  state = { date: addDays(new Date(), 14), budget: '12000', departure: '1', duration: '90', plans: [], planCount: 0 }
 
   // onFormSubmit関数の定義
   // async awaitという記述は、非同期通信
@@ -46,9 +47,7 @@ class Home extends React.Component {
       params: { date: format(this.state.date, 'yyyyMMdd'), budget: this.state.budget, departure: this.state.departure, duration: this.state.duration }
     });
     // responseにAPIから返却された値が含まれているので、stateにsetして更新
-    this.setState({ planCount: response.data.count, plans: response.data.plans })
-    {console.log(this.state.planCount)}
-    {console.log(this.state.plans)}
+    this.setState({ planCount: response.data.planCount, plans: response.data.plans })
 
   }
   render(){
@@ -100,7 +99,9 @@ class Home extends React.Component {
           <Result 
             // Resultコンポーネントにplansを渡す
             // plansにはAPIから取得した値が入っている
+            // コンポーネントにplanCountを渡す
             plans={this.state.plans}
+            planCount={this.state.planCount}
           />
         </div>
       </div>
