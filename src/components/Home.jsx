@@ -49,7 +49,7 @@ class Home extends React.Component {
     // デフォルトのsubmit処理をキャンセル
     event.preventDefault();
     this.setState({ loading: true })
-    
+
     // axiosを使用して、getのHTTP通信を行う
     // パラメーターとして、stateを送信
     const response = await axios.get('https://n91jed9a0k.execute-api.ap-northeast-1.amazonaws.com/production', {
@@ -61,6 +61,7 @@ class Home extends React.Component {
     }catch (e){
       // stateのerrorにエラーオブジェクトをセット
       this.setState({error: e})
+      this.setState({loading: false})
     }
   }
   render(){
