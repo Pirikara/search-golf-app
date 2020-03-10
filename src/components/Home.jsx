@@ -52,7 +52,7 @@ class Home extends React.Component {
 
     // axiosを使用して、getのHTTP通信を行う
     // パラメーターとして、stateを送信
-    const response = await axios.get('https://n91jed9a0k.execute-api.ap-northeast-1.amazonaws.com/production', {
+    const response = await axios.get('https://n91jed9a0k.execute-api.ap-northeast-1.amazonaws.com/production/golf-courses', {
       params: { date: format(this.state.date, 'yyyyMMdd'), budget: this.state.budget, departure: this.state.departure, duration: this.state.duration }
     });
     // responseにAPIから返却された値が含まれているので、stateにsetして更新
